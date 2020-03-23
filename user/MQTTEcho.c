@@ -43,12 +43,18 @@
 // #define DATAPAYLOAD						"{\r\n\"id\" : \"1123\",\r\n\"version\":\"1.0\",\r\n\"params\" : {\r\n\"CurrentVoltage\": %d,\r\n\"Current\": %d,\r\n},\r\n\"method\":\"thing.event.property.post\"\r\n}"
 
 
-#define DATAPAYLOAD   "{\r\n\"id\" : \"1123\",\r\n\"version\":\"1.0\",\r\n\"params\" : {\r\n\"CurrentVoltage\": %d.%d,\r\n\"Current\": %d.%d,\
-    \r\n\"RealTimePower\": %d.%d,\r\n\"BatteryPercentage\": %d.%d,\r\n\"WalkCount\": %d,\
+#define DATAPAYLOAD_01   "{\r\n\"id\" : \"1123\",\r\n\"version\":\"1.0\",\r\n\"params\" : {\r\n\"CurrentVoltage\": %d.%d,\r\n\"Current\": %d.%d,\
+    \r\n\"RealTimePower\": %d.%d,\r\n\"BatteryPercentage\": %d.%d,\
     \r\n},\r\n\"method\":\"thing.event.property.post\"\r\n}"
 
 
 
+#define DATAPAYLOAD_02   "{\r\n\"id\" : \"1123\",\r\n\"version\":\"1.0\",\r\n\"params\" : {\r\n\"BodyTemp\": %d.%d,\r\n\"Walk_count\": %d,\
+    \r\n\"Body_stat\": %d,\r\n\"WalkCount\": %d,\
+    \r\n},\r\n\"method\":\"thing.event.property.post\"\r\n}"
+
+
+bool flag = true;
 
 
 //设备信息
@@ -72,12 +78,23 @@ char MqttTopicPropertyPostReply[200];
 
 void GetJsonData(void)
 {//对获取温湿度数据进行json格式封装
+    
+    if (flag) {
+        flag = !flag;
+        sprintf(JsonDataPayLoad,DATAPAYLOAD_01,CurrentVoltage,Rand_01, \
+                                                Current,Rand_02,\
+                                                 RealTimePower,Rand_03,  \
+                                                  BatteryPercentage,Rand_04);
+    }
+    else {
+        flag = !flag;
+        sprintf(JsonDataPayLoad,DATAPAYLOAD_02,BodyTemp,Rand_01, \
+                                        Walk_count,\
+                                         Body_stat, \
+                                         Walk_count);
+    }
 
-    sprintf(JsonDataPayLoad,DATAPAYLOAD,CurrentVoltage,Rand_01, \
-                                        Current,Rand_02,\
-                                         RealTimePower,Rand_03,  \
-                                          BatteryPercentage,Rand_04, \
-                                          Walk_count);
+
 
 }
 int CreateJsData(char* JsData)

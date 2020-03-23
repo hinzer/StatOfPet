@@ -20,7 +20,7 @@ uint16 Rand_01,Rand_02,Rand_03,Rand_04;
 
 //Stat Data
 uint16 Body_stat=1;
-uint16 Walk_count=999;
+uint16 Walk_count=111;
 uint16 BodyTemp=40;
 uint16 Rand_11,Rand_12,Rand_13,Rand_14;
 
@@ -42,8 +42,8 @@ void ATaskPower( void *pvParameters )
        // DHT11_TEST();
        CurrentVoltage = 5;
        Current = 15;
-       RealTimePower = CurrentVoltage*Current/1000;
-       BatteryPercentage = (60-Runtime)/60;
+       RealTimePower = 70 + (99*rand())%10;
+       BatteryPercentage = (int)(100-1.66*Runtime);
        Runtime_s++;
        if (59 == Runtime_s) {
         Runtime_s = 0;
@@ -96,15 +96,14 @@ void ATaskBody( void *pvParameters )
 
        vTaskDelay(100);
        Body_stat=1;
-       Walk_count=999;
-       BodyTemp=40;
+       BodyTemp=35;
 
        Rand_11 = 100 + (99*rand())%100;
        Rand_12 = 100 + (99*rand())%100;
        Rand_13 = 100 + (99*rand())%100;
        Rand_14 = 100 + (99*rand())%100;  
        printf("Body_stat = %d\n",Body_stat);
-       printf("Walk_count = %d\n",Walk_count);
+       printf("Walk_count = %d\n",Walk_count++);
        printf("BodyTemp = %d\n",BodyTemp);
     }
     vTaskDelete( NULL );
