@@ -26,6 +26,7 @@
 #include "cJSON.h"
 #include "Test.h"
 #include "user_adc.h"
+#include "scan_mac.h"
 
 
 
@@ -50,11 +51,13 @@
 
 
 #define DATAPAYLOAD_02   "{\r\n\"id\" : \"1123\",\r\n\"version\":\"1.0\",\r\n\"params\" : {\r\n\"BodyTemp\": %d.%d,\r\n\"Walk_count\": %d,\
-    \r\n\"Body_stat\": %d,\r\n\"WalkCount\": %d,\
+    \r\n\"Body_stat\": %d,\r\n\"MACS\": \"%s|%s\",\
     \r\n},\r\n\"method\":\"thing.event.property.post\"\r\n}"
 
+#define DATAPAYLOAD_03   "{\r\n\"id\" : \"1123\",\r\n\"version\":\"1.0\",\r\n\"params\" : {\r\n\"MAC01\": \"%s\",\
+    \r\n},\r\n\"method\":\"thing.event.property.post\"\r\n}"
 
-bool flag = true;
+uint8 flag = 0;
 
 
 //设备信息
@@ -79,24 +82,25 @@ char MqttTopicPropertyPostReply[200];
 void GetJsonData(void)
 {//对获取温湿度数据进行json格式封装
     
-    if (flag) {
-        flag = !flag;
+    if (0 == flag%3) {
         sprintf(JsonDataPayLoad,DATAPAYLOAD_01,CurrentVoltage,Rand_01, \
                                                 Current,Rand_02,\
                                                  RealTimePower,Rand_03,  \
-                                                  BatteryPercentage,Rand_04);
+                                                  BatteryPercentage,Rand_04, \
+                                                 &STA_MAC_mac01[0]);
+    }
+    else if(1 == flag%3) {
+        sprintf(JsonDataPayLoad,DATAPAYLOAD_02,BodyTemp,Rand_11, \
+                                                Walk_count,\
+                                                 Body_stat, \
+                                                 &AP_MAC_macs[0][0], &AP_MAC_macs[1][0]);
     }
     else {
-        flag = !flag;
-        sprintf(JsonDataPayLoad,DATAPAYLOAD_02,BodyTemp,Rand_01, \
-                                        Walk_count,\
-                                         Body_stat, \
-                                         Walk_count);
+        sprintf(JsonDataPayLoad,DATAPAYLOAD_03,&STA_MAC_mac01[0]);
     }
-
-
-
+    flag++;
 }
+
 int CreateJsData(char* JsData)
 {//
     int rc = 0;
@@ -280,7 +284,7 @@ static void mqtt_client_thread(void* pvParameters)
         //等待应答主题
         MQTTYield(&client,200);
         //定时10s发送
-        vTaskDelay(3000 / portTICK_RATE_MS);  //send every 3 seconds
+        vTaskDelay(1000 / portTICK_RATE_MS);  //send every 3 seconds
 
     }
 
@@ -305,5 +309,5 @@ void user_conn_init(void)
     }
 	Power_init();
     Body_init();
-    // adc_timer_init();   //温度ADC任务调度
+    SCAN_MAC_init();
 }

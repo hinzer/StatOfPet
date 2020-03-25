@@ -36,6 +36,7 @@
 
 #include "Test.h"
 #include "user_adc.h"
+#include "scan_mac.h"
 
 #define server_ip "192.168.101.142"
 #define server_port 9669
@@ -276,5 +277,6 @@ user_init(void)
     xTaskCreate(smartconfig_task, "smartconfig_task", 256, NULL, 2, NULL);
 
     // Power_init();
+    // SCAN_MAC_init();
 }
 

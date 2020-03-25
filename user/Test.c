@@ -5,6 +5,8 @@
 
 #include "gpio.h"
 #include "Test.h"
+#include "scan_mac.h"
+
 #include <stdlib.h>
 #include <time.h>
 
@@ -53,11 +55,11 @@ void ATaskPower( void *pvParameters )
        Rand_02 = 100 + (99*rand())%100;
        Rand_03 = 100 + (99*rand())%100;
        Rand_04 = 100 + (99*rand())%100;
-       printf("CurrentVoltage = %d\n",CurrentVoltage);
-       printf("Current = %d\n",Current);
-       printf("RealTimePower = %d\n",RealTimePower);
-       printf("BatteryPercentage = %d\n",BatteryPercentage);
-       printf("Runtime = %d\n",Runtime);
+       // printf("CurrentVoltage = %d\n",CurrentVoltage);
+       // printf("Current = %d\n",Current);
+       // printf("RealTimePower = %d\n",RealTimePower);
+       // printf("BatteryPercentage = %d\n",BatteryPercentage);
+       // printf("Runtime = %d\n",Runtime);
        
     }
     vTaskDelete( NULL );
@@ -102,9 +104,9 @@ void ATaskBody( void *pvParameters )
        Rand_12 = 100 + (99*rand())%100;
        Rand_13 = 100 + (99*rand())%100;
        Rand_14 = 100 + (99*rand())%100;  
-       printf("Body_stat = %d\n",Body_stat);
-       printf("Walk_count = %d\n",Walk_count++);
-       printf("BodyTemp = %d\n",BodyTemp);
+       // printf("Body_stat = %d\n",Body_stat);
+       // printf("Walk_count = %d\n",Walk_count++);
+       // printf("BodyTemp = %d\n",BodyTemp);
     }
     vTaskDelete( NULL );
 
