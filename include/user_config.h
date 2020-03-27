@@ -25,8 +25,6 @@
 #ifndef __USER_CONFIG_H__
 #define __USER_CONFIG_H__
 
-#define SSID         "HINZER"        /* Wi-Fi SSID */
-#define PASSWORD     "88724974"     /* Wi-Fi Password */
 
 #define MQTT_BROKER  "a1XBCLti7xI.iot-as-mqtt.cn-shanghai.aliyuncs.com"  /* MQTT Broker Address*/
 #define MQTT_PORT    1883             /* MQTT Port*/

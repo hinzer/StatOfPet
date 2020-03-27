@@ -29,9 +29,6 @@
 #include "scan_mac.h"
 
 
-
-
-
 #define MQTT_CLIENT_THREAD_NAME         "mqtt_client_thread"
 #define MQTT_CLIENT_THREAD_STACK_WORDS  2048
 #define MQTT_CLIENT_THREAD_PRIO         8
@@ -40,15 +37,11 @@
 #define TOPIC_PROPERTY_POST	 			"/sys/%s/%s/thing/event/property/post"
 #define TOPIC_PROPERTY_POST_REPLY		"/sys/%s/%s/thing/event/property/post_reply"
 
+
 //对数据的json格式进行封装
-// #define DATAPAYLOAD						"{\r\n\"id\" : \"1123\",\r\n\"version\":\"1.0\",\r\n\"params\" : {\r\n\"CurrentVoltage\": %d,\r\n\"Current\": %d,\r\n},\r\n\"method\":\"thing.event.property.post\"\r\n}"
-
-
 #define DATAPAYLOAD_01   "{\r\n\"id\" : \"1123\",\r\n\"version\":\"1.0\",\r\n\"params\" : {\r\n\"CurrentVoltage\": %d.%d,\r\n\"Current\": %d.%d,\
     \r\n\"RealTimePower\": %d.%d,\r\n\"BatteryPercentage\": %d.%d,\
     \r\n},\r\n\"method\":\"thing.event.property.post\"\r\n}"
-
-
 
 #define DATAPAYLOAD_02   "{\r\n\"id\" : \"1123\",\r\n\"version\":\"1.0\",\r\n\"params\" : {\r\n\"BodyTemp\": %d.%d,\r\n\"Walk_count\": %d,\
     \r\n\"Body_stat\": %d,\r\n\"MACS\": \"%s|%s\",\
@@ -57,7 +50,6 @@
 #define DATAPAYLOAD_03   "{\r\n\"id\" : \"1123\",\r\n\"version\":\"1.0\",\r\n\"params\" : {\r\n\"MAC01\": \"%s\",\
     \r\n},\r\n\"method\":\"thing.event.property.post\"\r\n}"
 
-uint8 flag = 0;
 
 
 //设备信息
@@ -78,7 +70,14 @@ char JsonDataPayLoad[500];
 char MqttTopicPropertyPost[200];
 char MqttTopicPropertyPostReply[200];
 
-
+uint8 flag = 0;
+/******************************************************************************
+* 函数介绍：获得Json格式的数据
+* 输入参数：无
+* 输出参数：无
+* 返回值：无
+* 备注：将采集到的数据填写到字符串模板中，拼接成Json格式的数据
+******************************************************************************/
 void GetJsonData(void)
 {//对获取温湿度数据进行json格式封装
     
@@ -100,6 +99,7 @@ void GetJsonData(void)
     }
     flag++;
 }
+
 
 int CreateJsData(char* JsData)
 {//
@@ -293,7 +293,13 @@ static void mqtt_client_thread(void* pvParameters)
     return;
 }
 
-
+/******************************************************************************
+* 函数介绍：通用功能Init
+* 输入参数：无
+* 输出参数：无
+* 返回值：无
+* 备注：所有功能函数集中在这里启动
+******************************************************************************/
 void user_conn_init(void)
 {
     int ret;

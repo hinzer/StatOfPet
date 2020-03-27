@@ -131,8 +131,4 @@ DDEFINES +=				\
 INCLUDES := $(INCLUDES) -I $(PDIR)include
 sinclude $(SDK_PATH)/Makefile
 
-#.PHONY: clean
-#clean:
-
-#	@echo "yes" 
 

@@ -11,13 +11,6 @@
 
 
 
-
-//
-
-
-
-
-
 char AP_MAC_macs[MAC_COUNTS][32] = {"bc:5f:f6:71:bb:2e,-75", "dc:16:b2:b9:f4:c0,-90"}; 
 void scan_done(void *arg, STATUS status)
 { 
@@ -53,11 +46,12 @@ void scan_done(void *arg, STATUS status)
 
 
 /******************************************************************************
- * FunctionName : ATaskBody
- * Description  : ssssss
- * Parameters   : none
- * Returns      : none
-*******************************************************************************/
+* 函数介绍：扫描附近ap的MAC信息
+* 输入参数：无
+* 输出参数：无
+* 返回值：无
+* 备注：所有功能函数集中在这里启动
+******************************************************************************/
 void ATaskSCANMAC( void *pvParameters )
 {
     
@@ -77,6 +71,7 @@ void ATaskSCANMAC( void *pvParameters )
 char STA_MAC_mac01[32] = {0};
 void SCAN_MAC_init(void)
 {
+    //获取WiFi模块的MAC地址
     char sta_mac[6] = {0};
     wifi_get_macaddr(STATION_IF, sta_mac);
     sprintf(&STA_MAC_mac01[0],"%02x:%02x:%02x:%02x:%02x:%02x\n",sta_mac[0],sta_mac[1],sta_mac[2],sta_mac[3],sta_mac[4],sta_mac[5]);
